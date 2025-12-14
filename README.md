@@ -2,3 +2,6 @@ I'm quite sure I inverted the indeces at some point, but it still works really w
 
 
 I have just bestfitted this simulation on data I acquired!
+
+
+[tennisfit.pdf](https://github.com/user-attachments/files/24151820/tennisfit.pdf)
