@@ -65,11 +65,18 @@ def uni_angular_acc(alpha, omega0, dt):
     return omega0 + alpha * dt
 
 def alpha_calc(gamma, I, omega):
-    M=-np.asarray(gamma)*np.asarray(omega)
-    alphax = M[0] + ((I[1,1] - I[2,2]) * omega[2] * omega[1]) / I[0,0]
-    alphay = M[1] +( (I[2,2] - I[0,0]) * omega[0] * omega[2]) / I[1,1]
-    alphaz = M[2] +( (I[0,0] - I[1,1]) * omega[1] * omega[0]) / I[2,2]
+    gamma = np.asarray(gamma)
+    omega = np.asarray(omega)
+
+    # Quadratic damping torque
+    M = -gamma * omega * np.abs(omega)
+
+    alphax = (M[0] + (I[1,1] - I[2,2]) * omega[1] * omega[2]) / I[0,0]
+    alphay = (M[1] + (I[2,2] - I[0,0]) * omega[0] * omega[2]) / I[1,1]
+    alphaz = (M[2] + (I[0,0] - I[1,1]) * omega[0] * omega[1]) / I[2,2]
+
     return np.array([alphax, alphay, alphaz])
+
 
 # -------------------- Body Class --------------------
 class Body:
@@ -168,7 +175,7 @@ param_names = [
     r"$\gamma_x$", r"$\gamma_y$", r"$\gamma_z$"
 ]
 
-units=["[rad s$^{-1}$]","[rad s$^{-1}$]","[rad s$^{-1}$]"," "," ","[rad s$^{-1}$]","[rad s$^{-1}$]","[rad s$^{-1}$]","[rad s$^{-2}$]","[rad s$^{-2}$]","[rad s$^{-2}$]"]
+units=["[rad s$^{-1}$]","[rad s$^{-1}$]","[rad s$^{-1}$]"," "," ","[rad s$^{-1}$]","[rad s$^{-1}$]","[rad s$^{-1}$]","","",""]
 text_lines = ["Risultati del fit:"]
 for name, val, err, un in zip(param_names, popt, perr, units):
     formatted = format_with_uncertainty(val, 2*err, nsig=1)
